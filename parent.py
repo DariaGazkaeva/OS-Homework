@@ -24,11 +24,14 @@ def do_fork():
         if pid != 0:
             print('Parent[', os.getpid(), ']: I ran children process with PID ', pid, '.')
         else:
-            s = str(random.randint(5, 10))
-            os.execve('/child.py', [s], os.environ.copy())
+            start_child()
         return pid
     except OSError:
         sys.exit(1)
+
+def start_child():
+    s = str(random.randint(5, 10))
+    os.execl(sys.executable, sys.executable, "./child.py", s)
 
 
 main_parent(int(sys.argv[1]))
